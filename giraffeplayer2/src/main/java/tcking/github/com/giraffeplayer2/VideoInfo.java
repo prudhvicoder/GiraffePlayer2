@@ -26,13 +26,13 @@ public class VideoInfo implements Parcelable {
     private boolean showTopBar = false;
     private Uri uri;
     private String fingerprint = Integer.toHexString(hashCode());
-    private boolean portraitWhenFullScreen = true;
+    private boolean portraitWhenFullScreen = false;
     private String title;
     private int aspectRatio = AR_ASPECT_FIT_PARENT;
     private String lastFingerprint;
     private Uri lastUri;
     private int retryInterval=0;
-    private int bgColor = Color.DKGRAY;
+    private int bgColor = Color.BLACK;
     private String playerImpl = PLAYER_IMPL_IJK;
     private boolean fullScreenAnimation = true;
 

@@ -3,6 +3,7 @@ package tcking.github.com.giraffeplayer2;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +47,7 @@ public class DefaultMediaController extends BaseMediaController {
     protected int volume = -1;
     protected final int maxVolume;
 
+    private String subtitleUrl = "";
 
     protected float brightness;
     private int status = STATUS_IDLE;
@@ -109,7 +111,7 @@ public class DefaultMediaController extends BaseMediaController {
         if (videoView.isCurrentActivePlayer()) {
             boolean playing = videoView.getPlayer().isPlaying();
             if (playing) {
-                $.id(R.id.app_video_play).image(R.drawable.ic_stop_white_24dp);
+                $.id(R.id.app_video_play).image(R.drawable.ic_pause_white_24dp);
             } else {
                 $.id(R.id.app_video_play).image(R.drawable.ic_play_arrow_white_24dp);
             }
@@ -206,8 +208,9 @@ public class DefaultMediaController extends BaseMediaController {
 
     }
 
-    public DefaultMediaController(Context context) {
+    public DefaultMediaController(Context context, String subtitleUrl) {
         super(context);
+        this.subtitleUrl = subtitleUrl;
         maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
     }
 
@@ -377,6 +380,10 @@ public class DefaultMediaController extends BaseMediaController {
     public void onStart(GiraffePlayer giraffePlayer) {
         $.id(R.id.app_video_replay).gone();
         show(defaultTimeout);
+        if (subtitleUrl != null && !subtitleUrl.equals("")) {
+            ((SubTitleTextView) $.id(R.id.subtitle).view()).setPlayer(giraffePlayer);
+            ((SubTitleTextView) $.id(R.id.subtitle).view()).setSubSource(subtitleUrl, MediaPlayer.MEDIA_MIMETYPE_TEXT_SUBRIP);
+        }
     }
 
 

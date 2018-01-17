@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/app_video_cover"
@@ -25,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_play_circle_outline_white_36dp"
+                app:srcCompat="@drawable/ic_replay_white_24dp"
                 />
         </LinearLayout>
 
@@ -245,6 +246,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <tcking.github.com.giraffeplayer2.SubTitleTextView
+            android:visibility="visible"
+            android:textColor="@android:color/white"
+            android:id="@+id/subtitle"
+            android:textAlignment="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentBottom="true"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:shadowColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <RelativeLayout

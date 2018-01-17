@@ -2,6 +2,7 @@ package tcking.github.com.giraffeplayer2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -28,6 +29,8 @@ public class VideoView extends FrameLayout{
     private MediaController mediaController;
     private PlayerListener playerListener;
     private ViewGroup container;
+
+    private String subtitleUrl = "";
 
     public PlayerListener getPlayerListener() {
         return playerListener;
@@ -57,9 +60,21 @@ public class VideoView extends FrameLayout{
         init(context);
     }
 
+    public VideoView(@NonNull Context context, String subtitleUrl) {
+        super(context);
+        init(context, subtitleUrl);
+    }
+
     public VideoView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoView);
+        try {
+            subtitleUrl = ta.getString(R.styleable.VideoView_subtitleUrl);
+        }
+        finally {
+            ta.recycle();
+        }
+        init(context, subtitleUrl);
     }
 
     public VideoView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -79,14 +94,20 @@ public class VideoView extends FrameLayout{
         activity= (Activity) context;
         container = new FrameLayout(context);
         addView(container,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        initMediaController();
+        initMediaController("");
         setBackgroundColor(videoInfo.getBgColor());
     }
 
+    private void init(Context context, String subtitleUrl) {
+        activity= (Activity) context;
+        container = new FrameLayout(context);
+        addView(container,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        initMediaController(subtitleUrl);
+        setBackgroundColor(videoInfo.getBgColor());
+    }
 
-
-    private void initMediaController() {
-        mediaController = new DefaultMediaController(getContext());
+    private void initMediaController(String subtitleUrl) {
+        mediaController = new DefaultMediaController(getContext(), subtitleUrl);
         mediaController.bind(this);
     }
 
@@ -126,7 +147,7 @@ public class VideoView extends FrameLayout{
      */
     public boolean inListView() {
         for (ViewParent vp = getParent(); vp != null; vp = vp.getParent()) {
-            if (vp instanceof AbsListView || vp instanceof ScrollingView || vp instanceof ScrollView) {
+            if (vp instanceof AbsListView || vp instanceof ScrollingView) {
                 return true;
             }
         }
